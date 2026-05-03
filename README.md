@@ -263,7 +263,7 @@ MIT — free to use, adapt, and deploy for any project.
 
 Built by [Adeniran Precious Adebayo]
 
-- LinkedIn: [[LinkedIn] (https://www.linkedin.com/in/precious-adeniran-842b58294)]
+- LinkedIn: [[LinkedIn](https://www.linkedin.com/in/precious-adeniran-842b58294)]
 - Upwork: [[Upwork](https://upwork.com/freelancers/~01721e743c53bddd4e)]
 - Email: [[Mail](adeniranprecious002@gmail.com|)]
 
