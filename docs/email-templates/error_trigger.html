@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<body style="margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding:32px 16px;">
+                <table width="560" cellpadding="0" cellspacing="0"
+                    style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;">
+
+                    <tr>
+                        <td style="background:#A32D2D;padding:24px 32px;">
+                            <p style="color:#fff;font-size:18px;font-weight:700;margin:0;">⚠️ Workflow failure detected
+                            </p>
+                            <p style="color:#F7C1C1;font-size:13px;margin:4px 0 0;">PureSmile Automation Alert</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:28px 32px;">
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 20px;">A workflow has
+                                failed and needs your attention. Here are the details:</p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#FCEBEB;border-left:3px solid #A32D2D;border-radius:0 6px 6px 0;margin-bottom:24px;">
+                                <tr>
+                                    <td style="padding:16px 20px;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td
+                                                    style="color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;width:140px;">
+                                                    WORKFLOW</td>
+                                                <td style="color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;">
+                                                    {{ $json.workflow_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;">
+                                                    FAILED NODE</td>
+                                                <td style="color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;">
+                                                    {{ $json['node_name '] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;">
+                                                    ERROR</td>
+                                                <td style="color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;">
+                                                    {{ $json.error_message }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;">
+                                                    TIME</td>
+                                                <td style="color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;">
+                                                    {{ $json.failed_at }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;">
+                                                    EXECUTION ID</td>
+                                                <td style="color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;">
+                                                    {{ $json.execution_id }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="color:#5F5E5A;font-size:14px;line-height:1.6;margin:0 0 8px;">What to do next:</p>
+                            <p style="color:#5F5E5A;font-size:13px;line-height:1.6;margin:0 0 4px;">1. Log into n8n and
+                                open the <strong>Executions</strong> tab</p>
+                            <p style="color:#5F5E5A;font-size:13px;line-height:1.6;margin:0 0 4px;">2. Find execution ID
+                                <strong>{{ $json.execution_id }}</strong></p>
+                            <p style="color:#5F5E5A;font-size:13px;line-height:1.6;margin:0 0 20px;">3. Click
+                                <strong>Retry</strong> to re-run from the failed node</p>
+
+                            <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+                                <tr>
+                                    <td>
+                                        <a href="https://stevore006.app.n8n.cloud"
+                                            style="display:inline-block;background:#0a6b72;color:#fff;font-size:14px;font-weight:700;padding:12px 28px;border-radius:50px;text-decoration:none;">Open
+                                            n8n dashboard</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="border-top:0.5px solid #d3d1c7;padding:16px 32px 24px;">
+                            <p style="color:#888780;font-size:12px;margin:0;">This is an automated alert from PureSmile
+                                n8n automation.</p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

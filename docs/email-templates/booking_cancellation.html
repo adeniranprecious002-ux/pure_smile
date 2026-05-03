@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<body style="margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding:32px 16px;">
+                <table width="560" cellpadding="0" cellspacing="0"
+                    style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;">
+
+                    <tr>
+                        <td style="background:#4A4A48;padding:28px 32px 24px;">
+                            <p style="color:#ffffff;font-size:20px;font-weight:600;margin:0 0 4px;">Appointment
+                                Cancelled</p>
+                            <p style="color:#d3d1c7;font-size:13px;margin:0;">PureSmile Dental Clinic</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:28px 32px;">
+                            <span
+                                style="display:inline-block;background:#F1F1EF;color:#4A4A48;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:16px;letter-spacing:0.04em;">STATUS:
+                                CANCELLED</span>
+
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;">Hi <strong>{{
+                                    $('Booking Check ').item.json['First Name'] }}</strong>,</p>
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;">This email confirms
+                                that your <strong>{{ $('Booking Check ').item.json.Service }}</strong> appointment has
+                                been successfully cancelled. We're sorry we won't see you then, but we'd love to have
+                                you back when you're ready.</p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#F9F9F7;border-left:3px solid #4A4A48;border-radius:0 6px 6px 0;padding:14px 20px;margin:20px 0;">
+                                <tr>
+                                    <td
+                                        style="color:#888780;font-size:12px;font-weight:600;letter-spacing:0.05em;padding:4px 0;">
+                                        PREVIOUS DATE</td>
+                                    <td align="right"
+                                        style="color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;">{{
+                                        $('Booking Check ').item.json['Preffered Date'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="color:#888780;font-size:12px;font-weight:600;letter-spacing:0.05em;padding:4px 0;">
+                                        PREVIOUS TIME</td>
+                                    <td align="right"
+                                        style="color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;">{{
+                                        $('Booking Check ').item.json['Preffered Time'] }}</td>
+                                </tr>
+                            </table>
+
+                            <table cellpadding="0" cellspacing="0" style="margin:24px auto 8px;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="https://stevore006.app.n8n.cloud/webhook/booking-form"
+                                            style="display:inline-block;background:#854F0B;color:#ffffff;font-size:15px;font-weight:600;padding:13px 40px;border-radius:6px;text-decoration:none;">Reschedule
+                                            Now</a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="text-align:center;font-size:13px;color:#888780;margin-top:12px;">
+                                Questions? Call us at <a href="tel:+2348001234567"
+                                    style="color:#854F0B;text-decoration:none;">+234 800 123 4567</a>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:0 32px;">
+                            <hr style="border:none;border-top:0.5px solid #d3d1c7;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:16px 32px 28px;">
+                            <p style="color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;">You are receiving
+                                this because an appointment associated with this email was cancelled. If you did not
+                                request this, please contact us immediately.</p>
+                            <p style="color:#888780;font-size:12px;margin:0;">PureSmile &bull; 14 Admiralty Way, Lekki
+                                Phase 1</p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

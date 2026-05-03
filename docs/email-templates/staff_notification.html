@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<body style="margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding:32px 16px;">
+                <table width="560" cellpadding="0" cellspacing="0"
+                    style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;">
+
+                    <tr>
+                        <td style="background:#0a6b72;padding:24px 32px;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <p style="color:#fff;font-size:18px;font-weight:700;margin:0;">New patient
+                                            enquiry</p>
+                                        <p style="color:#9FE1CB;font-size:13px;margin:4px 0 0;">Action required — create
+                                            Dentrix record</p>
+                                    </td>
+                                    <td align="right">
+                                        <span
+                                            style="background:rgba(62,207,142,0.2);border:1px solid rgba(62,207,142,0.4);color:#3ecf8e;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;">NEW
+                                            LEAD</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:28px 32px;">
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 20px;">A new patient has
+                                submitted an enquiry through the website. Please create their record in Dentrix and
+                                update the Google Sheet with their Patient ID.</p>
+
+                            <!-- Patient details -->
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#e8f5f6;border-left:3px solid #0a6b72;border-radius:0 6px 6px 0;margin-bottom:24px;">
+                                <tr>
+                                    <td style="padding:16px 20px;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;width:140px;">
+                                                    FULL NAME</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $('Edit Fields').item.json.first_name }}{{ $('Edit
+                                                    Fields').item.json['Last Name'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    EMAIL</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $('Edit Fields').item.json.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    PHONE</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $('Edit Fields').item.json.Number }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    SERVICE</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $('Edit Fields').item.json.service }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    PREF. DATE</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $('Edit Fields').item.json.preffered_date }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    SUBMITTED</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $('Edit Fields').item.json.submitted_at }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Patient message -->
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#f8fafa;border-radius:8px;border:0.5px solid #d4e0e1;margin-bottom:24px;">
+                                <tr>
+                                    <td style="padding:14px 18px;">
+                                        <p
+                                            style="color:#0a6b72;font-size:11px;font-weight:700;letter-spacing:0.08em;margin:0 0 6px;">
+                                            PATIENT MESSAGE</p>
+                                        <p
+                                            style="color:#2c2c2a;font-size:14px;line-height:1.6;margin:0;font-style:italic;">
+                                            "{{ $('Edit Fields').item.json.Message }}"</p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Action steps -->
+                            <p style="color:#2c2c2a;font-size:14px;font-weight:700;margin:0 0 12px;">Your action
+                                checklist:</p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px;">
+                                <tr>
+                                    <td
+                                        style="width:28px;height:28px;background:#e8f5f6;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#0a6b72;">
+                                        1</td>
+                                    <td style="padding-left:12px;font-size:14px;color:#2c2c2a;line-height:1.5;">Call or
+                                        email the patient to confirm their preferred appointment date</td>
+                                </tr>
+                            </table>
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px;">
+                                <tr>
+                                    <td
+                                        style="width:28px;height:28px;background:#e8f5f6;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#0a6b72;">
+                                        2</td>
+                                    <td style="padding-left:12px;font-size:14px;color:#2c2c2a;line-height:1.5;">Create
+                                        their record in Dentrix and copy their Patient ID</td>
+                                </tr>
+                            </table>
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+                                <tr>
+                                    <td
+                                        style="width:28px;height:28px;background:#e8f5f6;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#0a6b72;">
+                                        3</td>
+                                    <td style="padding-left:12px;font-size:14px;color:#2c2c2a;line-height:1.5;">Paste
+                                        the Patient ID into the <strong>Patient ID</strong> column in the Google Sheet
+                                        and update Status to <strong>booked</strong></td>
+                                </tr>
+                            </table>
+
+                            <!-- CTA buttons -->
+                            <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+                                <tr>
+                                    <td style="padding-right:12px;">
+                                        <a href="https://docs.google.com/spreadsheets/d/1195a1YBYzFPKqvgnhSz7LHY53lvXP17hjwAeVXTBmVs"
+                                            style="display:inline-block;background:#3ecf8e;color:#fff;font-size:14px;font-weight:700;padding:12px 24px;border-radius:50px;text-decoration:none;">Open
+                                            Google Sheet</a>
+                                    </td>
+                                    <td>
+                                        <a href="mailto:{{ $('Edit Fields').item.json.email }}"
+                                            style="display:inline-block;background:transparent;color:#0a6b72;font-size:13px;font-weight:600;padding:12px 20px;border:0.5px solid #0a6b72;border-radius:50px;text-decoration:none;">Email
+                                            patient</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="border-top:0.5px solid #d3d1c7;padding:16px 32px 24px;">
+                            <p style="color:#888780;font-size:12px;line-height:1.6;margin:0;">This notification was sent
+                                automatically by PureSmile n8n automation when a new patient submitted the website form.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<body style="margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding:32px 16px;">
+                <table width="560" cellpadding="0" cellspacing="0"
+                    style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;">
+
+                    <!-- Header -->
+                    <tr>
+                        <td style="background:#0a6b72;padding:28px 32px 24px;">
+                            <p style="color:#ffffff;font-size:20px;font-weight:700;margin:0 0 4px;">Appointment
+                                confirmed!</p>
+                            <p style="color:#9FE1CB;font-size:13px;margin:0;">PureSmile</p>
+                        </td>
+                    </tr>
+
+                    <!-- Confirmed banner -->
+                    <tr>
+                        <td style="background:#f0faf6;border-bottom:1px solid #9FE1CB;padding:20px 32px;">
+                            <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td
+                                        style="width:40px;height:40px;background:#3ecf8e;border-radius:50%;text-align:center;vertical-align:middle;font-size:20px;color:#fff;font-weight:700;">
+                                        ✓</td>
+                                    <td style="padding-left:14px;">
+                                        <p style="color:#085041;font-size:16px;font-weight:700;margin:0 0 2px;">You're
+                                            all booked in, {{ $json['First Name'] }}</p>
+                                        <p style="color:#0f6e56;font-size:13px;margin:0;">We'll send you a reminder 24
+                                            hours before your visit.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding:28px 32px;">
+                            <span
+                                style="display:inline-block;background:#f0faf6;color:#085041;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:16px;letter-spacing:0.04em;">BOOKING
+                                CONFIRMED</span>
+
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;">Hi <strong>{{
+                                    $json['First Name'] }}</strong>,</p>
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;">Great news — your
+                                appointment has been confirmed. Here are your booking details:</p>
+
+                            <!-- Appointment box -->
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#e8f5f6;border-left:3px solid #0a6b72;border-radius:0 6px 6px 0;margin:20px 0;">
+                                <tr>
+                                    <td style="padding:16px 20px;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;width:120px;">
+                                                    DATE</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $json['Preffered Date'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    TIME</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $json['Preffered Time'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    SERVICE</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    {{ $json.Service }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td
+                                                    style="color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;">
+                                                    LOCATION</td>
+                                                <td style="color:#064d52;font-size:14px;font-weight:600;padding:5px 0;">
+                                                    14 Admiralty Way, Lekki Phase 1, Lagos</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Calendar nudge -->
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#f8fafa;border:0.5px solid #d4e0e1;border-radius:8px;margin:16px 0;">
+                                <tr>
+                                    <td style="padding:14px 18px;">
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="font-size:22px;padding-right:14px;">📅</td>
+                                                <td>
+                                                    <p
+                                                        style="font-size:13px;color:#5F5E5A;margin:0 0 4px;line-height:1.5;">
+                                                        Don't forget your appointment.</p>
+                                                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dental+Appointment+at+PureSmile&dates={{ $json['Preffered Date'].replace(/-/g,'') }}T{{ $json['Preffered Date'].replace(':','') }}00/{{ $json['Preffered Date'].replace(/-/g,'') }}T{{ $json['Preffered Time'].replace(':','') }}00&details=Appointment+at+PureSmile+Dental&location=14+Admiralty+Way+Lekki+Lagos"
+                                                        style="color:#0a6b72;font-weight:600;font-size:13px;text-decoration:none;">Add
+                                                        to Google Calendar →</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="font-size:14px;color:#5F5E5A;line-height:1.6;margin:0;">Please arrive <strong>10
+                                    minutes early</strong>. To cancel or reschedule, call us at least 24 hours in
+                                advance at <a href="tel:234 800 123 4567" style="color:#0a6b72;">234 800 123 4567</a>.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="border-top:0.5px solid #d3d1c7;padding:16px 32px 28px;">
+                            <p style="color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;">Questions? Reply to
+                                this email or call <a href="tel:234 800 123 4567" style="color:#0a6b72;">234 800 123
+                                    4567</a>.</p>
+                            <p style="color:#888780;font-size:12px;margin:0;">PureSmile Dental · 14 Admiralty Way, Lekki
+                                Phase 1, Lagos</p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

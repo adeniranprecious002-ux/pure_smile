@@ -1,0 +1,3374 @@
+{
+  "name": "Pure smile",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "721b50de-410f-4824-b835-d1623a9f6ce0",
+              "name": "first_name",
+              "value": "={{ $json.body.firstName }}",
+              "type": "string"
+            },
+            {
+              "id": "b04aa7af-9f0b-4e40-a97f-f386bae3c95d",
+              "name": "email",
+              "value": "={{ $json.body.email }}",
+              "type": "string"
+            },
+            {
+              "id": "b1f18a6c-e01b-4586-b19f-e7ef0346646a",
+              "name": "Number",
+              "value": "={{ $json.body.phone }}",
+              "type": "number"
+            },
+            {
+              "id": "7f1b9213-cf99-43ab-914e-2632bafe473b",
+              "name": "submitted_at",
+              "value": "={{ $json.body.submittedAt }}",
+              "type": "string"
+            },
+            {
+              "id": "dfbd7d58-dec5-48c0-acd6-ce21fbf60876",
+              "name": "preffered_date",
+              "value": "={{ $json.body.appointmentDate }}",
+              "type": "string"
+            },
+            {
+              "id": "aa7bb381-4757-4079-8b26-7bf1823c0de2",
+              "name": "Last Name",
+              "value": "={{ $json.body.lastName }}",
+              "type": "string"
+            },
+            {
+              "id": "a02acc91-e4a0-455c-be38-65af9cfa0127",
+              "name": "service",
+              "value": "={{ $json.body.service }}",
+              "type": "string"
+            },
+            {
+              "id": "2f9b1ea6-6a55-4682-97c3-c8c30fba14e5",
+              "name": "Message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "9f3e8c35-08e8-467e-91f9-7144de65c72a",
+              "name": "Status ",
+              "value": "new-lead",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        384
+      ],
+      "id": "6a4979c9-55b1-48fe-a7dd-39e076b2b664",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5e0d3ec5-7cf3-4cb1-b312-920817356e35",
+        "options": {
+          "responseCode": {
+            "values": {}
+          },
+          "responseData": "\u2713 Thank you! We'll confirm your appointment within 2 hours."
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        64,
+        384
+      ],
+      "id": "e68b86a1-0b47-4a74-94d2-dcfb92d016c3",
+      "name": "Webhook",
+      "webhookId": "5e0d3ec5-7cf3-4cb1-b312-920817356e35"
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1424,
+        784
+      ],
+      "id": "de1975f3-ccc9-4bd8-88d3-7b1f7c9c33c6",
+      "name": "Wait",
+      "webhookId": "05e6bb30-9179-426b-aef6-0b175cda1276",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2032,
+        1616
+      ],
+      "id": "fcdd07e2-ce33-4766-adac-9ab9fb396200",
+      "name": "Wait1",
+      "webhookId": "05e6bb30-9179-426b-aef6-0b175cda1276"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "Booked",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9344e7c4-40f5-4e01-93dd-d6aff2211ee9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Booked"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fcb089c6-07c2-49a6-b606-8d63d42ff1ff",
+                    "leftValue": "={{ $json.Status }}",
+                    "rightValue": "new-lead",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Not Booked"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        912
+      ],
+      "id": "985ec071-5e6a-4df0-9ab9-eafb07baa8c0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email address'] }}",
+        "subject": "Welcome to the family",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <!-- Header -->\n      <tr><td style=\"background:#0a6b72;padding:32px;text-align:center;\">\n        <p style=\"color:#ffffff;font-size:22px;font-weight:700;margin:0 0 6px;\">PureSmile</p>\n        <p style=\"color:#9FE1CB;font-size:13px;margin:0;\">14 Admiralty Way, Lekki Phase 1\nLagos, Nigeria</p>\n      </td></tr>\n\n      <!-- Welcome banner -->\n      <tr><td style=\"background:#e8f5f6;padding:28px 32px;text-align:center;border-bottom:1px solid #d4e0e1;\">\n        <p style=\"font-size:36px;margin:0 0 10px;\">\ud83e\uddb7</p>\n        <p style=\"color:#0a6b72;font-size:20px;font-weight:700;margin:0 0 6px;\">Welcome to the family, {{ $json['First Name'] }}!</p>\n        <p style=\"color:#6b8082;font-size:14px;margin:0;\">We're so glad you reached out. Your smile is in great hands.</p>\n      </td></tr>\n\n      <!-- Body -->\n      <tr><td style=\"padding:28px 32px;\">\n        <span style=\"display:inline-block;background:#e8f5f6;color:#085041;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:16px;letter-spacing:0.04em;\">NEW PATIENT</span>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">Hi <strong>{{ $json['First Name'] }}</strong>,</p>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">Thank you for choosing Pure Smile. We're committed to making every visit as comfortable and stress-free as possible \u2014 from your very first appointment.</p>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">Here's what happens next:</p>\n\n        <!-- Step 1 -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f8fafa;border-radius:10px;border:0.5px solid #d4e0e1;margin-bottom:10px;\">\n          <tr><td style=\"padding:14px 16px;\">\n            <table cellpadding=\"0\" cellspacing=\"0\"><tr>\n              <td style=\"width:28px;height:28px;background:#0a6b72;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#fff;padding:0 0 0 1px;\">1</td>\n              <td style=\"padding-left:14px;\">\n                <p style=\"font-size:14px;font-weight:700;color:#0d2426;margin:0 0 2px;\">Book your first visit </p>\n                <p style=\"font-size:13px;color:#6b8082;margin:0;line-height:1.5;\">Choose a date and time that works for you. New patient consultations are typically 30\u201345 minutes.</p>\n              </td>\n            </tr></table>\n          </td></tr>\n        </table>\n\n        <!-- Step 2 -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f8fafa;border-radius:10px;border:0.5px solid #d4e0e1;margin-bottom:10px;\">\n          <tr><td style=\"padding:14px 16px;\">\n            <table cellpadding=\"0\" cellspacing=\"0\"><tr>\n              <td style=\"width:28px;height:28px;background:#0a6b72;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#fff;\">2</td>\n              <td style=\"padding-left:14px;\">\n                <p style=\"font-size:14px;font-weight:700;color:#0d2426;margin:0 0 2px;\">Meet your dentist</p>\n                <p style=\"font-size:13px;color:#6b8082;margin:0;line-height:1.5;\">We'll do a full assessment and listen to your concerns \u2014 no pressure, no rush.</p>\n              </td>\n            </tr></table>\n          </td></tr>\n        </table>\n\n        <!-- Step 3 -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f8fafa;border-radius:10px;border:0.5px solid #d4e0e1;margin-bottom:24px;\">\n          <tr><td style=\"padding:14px 16px;\">\n            <table cellpadding=\"0\" cellspacing=\"0\"><tr>\n              <td style=\"width:28px;height:28px;background:#0a6b72;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#fff;\">3</td>\n              <td style=\"padding-left:14px;\">\n                <p style=\"font-size:14px;font-weight:700;color:#0d2426;margin:0 0 2px;\">Get your personalised plan</p>\n                <p style=\"font-size:13px;color:#6b8082;margin:0;line-height:1.5;\">You'll leave with a clear treatment plan and transparent pricing \u2014 zero surprises.</p>\n              </td>\n            </tr></table>\n          </td></tr>\n        </table>\n\n        <!-- CTA -->\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto 8px;\">\n          <tr><td align=\"center\">\n            <a href=\"https://your-instance.n8n.cloud/form/5c2b42ba-c2ee-4860-9954-f5afe01372c9\" style=\"display:inline-block;background:#3ecf8e;color:#ffffff;font-size:15px;font-weight:700;padding:14px 40px;border-radius:50px;text-decoration:none;\">Book my first appointment</a>\n          </td></tr>\n        </table>\n        <p style=\"text-align:center;font-size:13px;color:#888780;margin-top:12px;\">\n          Have questions first? Call us: <a href=\"tel:+234 000 000 0000\" style=\"color:#0a6b72;\">+234 000 000 0000</a>\n        </p>\n      </td></tr>\n\n      <!-- Footer -->\n      <tr><td style=\"border-top:0.5px solid #d3d1c7;padding:16px 32px 28px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;\">You're receiving this because you contacted PureSmile.</p>\n        <p style=\"color:#888780;font-size:12px;margin:0;\">PureSmile \u00b7 14 Admiralty Way, Lekki Phase 1\nLagos, Nigeria</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        384
+      ],
+      "id": "f2870a4a-3361-4a95-8572-d0cb89e39641",
+      "name": "Welcome Message",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email address'] }}",
+        "subject": "Still on for tomorrow?",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <tr><td style=\"background:#854F0B;padding:28px 32px 24px;\">\n        <p style=\"color:#ffffff;font-size:20px;font-weight:600;margin:0 0 4px;\">Still on for tomorrow?</p>\n        <p style=\"color:#FAC775;font-size:13px;margin:0;\">PureSmile Dental Clinic</p>\n      </td></tr>\n\n      <tr><td style=\"padding:28px 32px;\">\n        <span style=\"display:inline-block;background:#FAEEDA;color:#633806;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:16px;letter-spacing:0.04em;\">ACTION NEEDED</span>\n\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;\">Hi <strong>{{ $json['First Name'] }}</strong>,</p>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;\">We haven't received your confirmation yet for tomorrow's <strong>{{ $json['Service'] }}</strong> appointment. Your slot is still reserved\u2014please confirm so we can keep it for you.</p>\n\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#FAEEDA;border-left:3px solid #854F0B;border-radius:0 6px 6px 0;padding:14px 20px;margin:20px 0;\">\n          <tr>\n            <td style=\"color:#854F0B;font-size:12px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">DATE</td>\n            <td align=\"right\" style=\"color:#633806;font-size:14px;font-weight:600;padding:4px 0;\">{{ $('Code in JavaScript').item.json['Preffered Date'] }}</td>\n          </tr>\n          <tr>\n            <td style=\"color:#854F0B;font-size:12px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">TIME</td>\n            <td align=\"right\" style=\"color:#633806;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json['Preffered Time'] }}</td>\n          </tr>\n          <tr>\n            <td style=\"color:#854F0B;font-size:12px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">PROVIDER</td>\n            <td align=\"right\" style=\"color:#633806;font-size:14px;font-weight:600;padding:4px 0;\">{{ $('Code in JavaScript').item.json.doctor.name }}</td>\n          </tr>\n        </table>\n\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#FCEBEB;border-radius:6px;margin:16px 0;\">\n          <tr><td style=\"padding:12px 16px;font-size:13px;color:#791F1F;line-height:1.5;\">\n            <strong>Note:</strong> High demand at our Lekki clinic means unconfirmed slots may be released to patients on our waiting list.\n          </td></tr>\n        </table>\n\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:24px auto 8px;\">\n          <tr><td align=\"center\">\n            <a href=\"https://your-instance.n8n.cloud/webhook/confirm-appointment?email={{ $json[\"Email\"] }}\" style=\"display:inline-block;background:#1D9E75;color:#ffffff;font-size:15px;font-weight:600;padding:13px 40px;border-radius:6px;text-decoration:none;\">Yes, I'll be there</a>\n          </td></tr>\n        </table>\n\n        <p style=\"text-align:center;font-size:13px;color:#888780;margin-top:12px;\">\n          Need to reschedule? <a href=\"https://your-instance.n8n.cloud/webhook/cancel-appointment\" style=\"color:#854F0B;\">Click here</a> or call <a href=\"tel:+2348001234567\" style=\"color:#854F0B;\">+234 000 000 0000</a>\n        </p>\n      </td></tr>\n\n      <tr><td style=\"padding:0 32px;\"><hr style=\"border:none;border-top:0.5px solid #d3d1c7;\"></td></tr>\n\n      <tr><td style=\"padding:16px 32px 28px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;\">This is an automated reminder from PureSmile. If you've already confirmed by phone, please disregard this message.</p>\n        <p style=\"color:#888780;font-size:12px;margin:0;\">PureSmile &bull; 14 Admiralty Way, Lekki Phase 1</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        784
+      ],
+      "id": "98a199d9-0481-4d93-a39f-649d64e46df6",
+      "name": "Second Reminder",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email address'] }}",
+        "subject": "Reminder ",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <tr><td style=\"background:#1D9E75;padding:28px 32px 24px;\"> \n        <p style=\"color:#ffffff;font-size:20px;font-weight:600;margin:0 0 4px;\">Appointment Reminder</p>\n        <p style=\"color:#ffffff;opacity:0.8;font-size:13px;margin:0;\">PureSmile Dental Clinic</p>\n      </td></tr>\n\n      <tr><td style=\"padding:28px 32px;\">\n        <span style=\"display:inline-block;background:#E6FBF4;color:#1D9E75;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:16px;\">24-HOUR NOTICE</span>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;\">Hi <strong>{{ $json['First Name'] }}</strong>,</p>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;\">This is a friendly reminder that you have an appointment scheduled for <strong>tomorrow</strong> for <strong>{{ $json['Service'] }}</strong>. We look forward to seeing you!</p>\n\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f9f9f7;border-left:3px solid #1D9E75;border-radius:0 6px 6px 0;padding:16px 20px;margin:20px 0;\">\n          <tr>\n            <td style=\"color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">DATE</td>\n            <td align=\"right\" style=\"color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json['Preffered Date'] }}</td>\n          </tr>\n          <tr>\n            <td style=\"color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">TIME</td>\n            <td align=\"right\" style=\"color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json['Preffered Time'] }}</td>\n          </tr>\n          <tr>\n            <td style=\"color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">PROVIDER</td>\n            <td align=\"right\" style=\"color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json.doctor.name }}</td>\n          </tr>\n          <tr>\n            <td style=\"color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">LOCATION</td>\n            <td align=\"right\" style=\"color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;\">14 Admiralty Way, Lekki Phase 1</td>\n          </tr>\n        </table>\n\n        <p style=\"font-size:14px;color:#5F5E5A;line-height:1.6;margin:0 0 24px;\">\n            <strong>Meet your specialist:</strong> {{ $json.doctor.bio }}\n        </p>\n\n        <p style=\"font-size:13px;color:#888780;line-height:1.6;margin:0 0 24px;\">Please arrive 10 minutes early. If you need to reschedule, kindly give us at least 24 hours' notice.</p>\n\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\">\n          <tr>\n            <td style=\"padding-right:12px;\">\n              <a href=\"https://your-instance.n8n.cloud/webhook/confirm-appointment?email={{ $json['Email address'] }}\" style=\"display:inline-block;background:#1D9E75;color:#ffffff;font-size:15px;font-weight:600;padding:13px 36px;border-radius:6px;text-decoration:none;\">Confirm Appointment</a>\n            </td>\n          </tr>\n        </table>\n      </td></tr>\n\n      <tr><td style=\"padding:0 32px;\"><hr style=\"border:none;border-top:0.5px solid #d3d1c7;\"></td></tr>\n\n      <tr><td style=\"padding:16px 32px 28px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;\">Questions? Call us at <a href=\"tel:+2348001234567\" style=\"color:#1D9E75;\">+234 000 000 0000</a> or reply to this email.</p>\n        <p style=\"color:#888780;font-size:12px;margin:0;\"> PureSmile &bull; Lekki Phase 1, Lagos</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1216,
+        784
+      ],
+      "id": "7e916cba-b744-4b62-9905-f819f91505e0",
+      "name": "First Reminder",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1088,
+        1504
+      ],
+      "id": "b84a05ae-36df-428c-b418-5a6b6ab85bf3",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=You are a warm, professional dental clinic assistant for PureSmile Dental Hospital in Lagos.\n\nWrite a short, friendly reactivation email body (3-4 sentences max) for a patient who hasn't visited in over 6 months.\n\nPatient details:\n- Name: {{ $json['First Name'] }}\n- Last service: {{ $json['Service'] }}\n- Last visit: {{ $json['Last Notified At'] }}\n\nRules:\n- Address them by first name\n- Reference their last treatment naturally\n- Keep it warm, not pushy\n- End with a gentle call to action to book again\n- Do NOT include subject line, greetings like \"Dear\", or sign-offs\n- Return plain text only, no HTML tags"
+            },
+            {
+              "role": "system",
+              "content": "You are a senior patient coordinator at PureSmile Dental. Your communication style is professional, warm, and highly personalized. Your goal is to re-engage patients who haven't visited in 6+ months by making them feel valued, not like just another number in a database."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        1328,
+        1616
+      ],
+      "id": "b35f5f84-4976-4dfe-a586-d650c8fdf3e7",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -32,
+        928
+      ],
+      "id": "b8eb0184-0901-422f-ad37-c56361827933",
+      "name": "Reminder"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -16,
+        1520
+      ],
+      "id": "c96dda5e-31cc-4765-81f3-d008aa1b45db",
+      "name": "Reactivation"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email address'] }}",
+        "subject": "Reminder To Book Your Appointment",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <!-- Header -->\n      <tr><td style=\"background:#0d2426;padding:24px 32px;\">\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n          <td style=\"color:#ffffff;font-size:18px;font-weight:800;\">Pure<span style=\"color:#3ecf8e;\">Smile</span></td>\n          <td align=\"right\"><span style=\"background:rgba(62,207,142,0.15);border:1px solid rgba(62,207,142,0.3);color:#3ecf8e;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;letter-spacing:0.06em;\">FOLLOWING UP</span></td>\n        </tr></table>\n      </td></tr>\n\n      <!-- Body -->\n      <tr><td style=\"padding:36px 32px 24px;\">\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">Hi <strong>{{ $json['First Name'] }}</strong>,</p>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">We noticed you haven't booked your first appointment yet \u2014 and we just wanted to check in. No pressure at all, but we'd hate for you to miss out on getting that smile sorted.</p>\n\n        <!-- Offer box -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f0faf6;border:1.5px solid #3ecf8e;border-radius:12px;margin:20px 0;\">\n          <tr><td style=\"padding:20px 24px;\">\n            <p style=\"color:#085041;font-size:16px;font-weight:700;margin:0 0 8px;\">Your new patient offer is still waiting</p>\n            <p style=\"color:#0f6e56;font-size:14px;line-height:1.55;margin:0 0 12px;\">As a new patient, your first consultation includes a full dental assessment and personalised treatment plan \u2014 completely free.</p>\n            <p style=\"color:#0f6e56;font-size:13px;font-weight:600;margin:0 0 6px;\">\u2713 Full oral health assessment included</p>\n            <p style=\"color:#0f6e56;font-size:13px;font-weight:600;margin:0 0 6px;\">\u2713 No obligation, no hidden fees</p>\n            <p style=\"color:#0f6e56;font-size:13px;font-weight:600;margin:0;\">\u2713 Available 6 days a week</p>\n          </td></tr>\n        </table>\n\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">Still unsure? Here's what one of our recent new patients had to say:</p>\n\n        <!-- Social proof -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f8fafa;border-radius:10px;border-left:3px solid #0a6b72;margin:0 0 20px;\">\n          <tr><td style=\"padding:16px 20px;\">\n            <p style=\"font-size:14px;color:#2c2c2a;font-style:italic;line-height:1.6;margin:0 0 10px;\">\"I kept putting it off for months. I finally booked and wish I had done it sooner. The whole team was so warm and professional \u2014 nothing like I expected.\"</p>\n            <p style=\"font-size:12px;color:#6b8082;font-weight:600;margin:0;\">\u2014 Emeka T., new patient \u00b7 Orthodontics</p>\n          </td></tr>\n        </table>\n\n        <p style=\"font-size:14px;color:#6b8082;margin:0 0 24px;\">Ready when you are. It only takes 2 minutes to pick a slot.</p>\n\n        <!-- CTA buttons -->\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto 8px;\">\n          <tr>\n            <td style=\"padding-right:10px;\">\n              <a href=\"https://your-instance.n8n.cloud/form/5c2b42ba-c2ee-4860-9954-f5afe01372c9\" style=\"display:inline-block;background:#3ecf8e;color:#ffffff;font-size:15px;font-weight:700;padding:14px 36px;border-radius:50px;text-decoration:none;\">Book my free consultation</a>\n            </td>\n            <td>\n              <a href=\"tel:+2348001234567\" style=\"display:inline-block;background:transparent;color:#0a6b72;font-size:13px;padding:14px 20px;border:0.5px solid #0a6b72;border-radius:50px;text-decoration:none;\">Call us instead</a>\n            </td>\n          </tr>\n        </table>\n        <p style=\"text-align:center;font-size:13px;color:#6b8082;margin-top:12px;\">Slots fill up fast \u2014 especially on weekends.</p>\n      </td></tr>\n\n      <!-- Footer -->\n      <tr><td style=\"border-top:0.5px solid #d3d1c7;padding:16px 32px 28px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;\">You're receiving this because you contacted PureSmile.</p>\n        <p style=\"color:#888780;font-size:12px;margin:0;\">PureSmile \u00b7 Lekki Phase 1, Lagos</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        1072
+      ],
+      "id": "c81d7df2-2fca-423b-a0ff-184dcce6f05f",
+      "name": "Reminder to book",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "= {{ $json.first_name }}, we miss you at PureSmile \ud83d\udc4b",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1840,
+        1616
+      ],
+      "id": "3c207466-5307-4ff5-a855-3fd836155b8f",
+      "name": "Reactivation mail 1",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// This loop processes every row coming from your Google Sheet\nfor (const item of $input.all()) {\n  const docMap = {\n    \"Orthodontics\": { name: \"Dr. General Dentist\", bio: \"MSc London, specializing in Invisalign.\" },\n    \"Dental implants\": { name: \"Dr. Orthodontist\", bio: \"Fellowship in Vienna, over 3,000 procedures.\" },\n    \"Cosmetic dentistry\": { name: \"Dr. Periodontist\", bio: \"Award-winning smile designer.\" },\n    \"Paediatric dentistry\": { name: \"Dr. Oral Surgeon\", bio: \"UCL Diploma, expert in children's care.\" },\n    \"General dentistry\": { name: \"Dr. Periodontist\", bio: \"Expert in full mouth rehabilitation.\" },\n    \"Root canal therapy\": { name: \"Dr. Periodontist\", bio: \"Specialist in painless root canal treatments.\" },\n    \"Emergency care\": { name: \"Dr. Orthodontist\", bio: \"Expert in urgent oral surgery and pain relief.\" }\n  };\n\n  // Map the doctor based on the Service column\n  const selectedService = item.json[\"Service\"];\n  \n  // Attach the doctor object to the current item\n  item.json.doctor = docMap[selectedService] || { name: \"Our Specialist Team\", bio: \"Expert care for your smile.\" };\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        784
+      ],
+      "id": "dba2f208-da29-4e88-9412-84ff67049abb",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Booking Confirmed",
+              "lookupValue": "No"
+            }
+          ]
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically",
+              "readRowsUntil": "firstEmptyRow"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        928
+      ],
+      "id": "dedbb5fe-bac5-47d4-84e4-7187c5a057f3",
+      "name": "Booking Check",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "confirm-appointment",
+        "options": {
+          "responseCode": {
+            "values": {}
+          },
+          "responseData": "Success! Your appointment is confirmed. See you tomorrow!"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1744,
+        1072
+      ],
+      "id": "cf0967f0-38ab-4691-a73f-bdd078870985",
+      "name": "Webhook1",
+      "webhookId": "5e0d3ec5-7cf3-4cb1-b312-920817356e35"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Booking Confirmed": "Yes",
+            "Email address": "={{ $json.query.email }}",
+            "Last Notified At": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "Email address"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1952,
+        1072
+      ],
+      "id": "68e0a818-26d4-4719-8f66-7771f7821e08",
+      "name": "Booking Confirmed",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Booking Confirmed",
+              "lookupValue": "No"
+            }
+          ]
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1600,
+        784
+      ],
+      "id": "3c676068-dace-43e1-bbbc-db4147c45adc",
+      "name": "Booking Check 1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2192,
+        784
+      ],
+      "id": "43d63d2f-fc48-4681-a475-a2cd345b0ab7",
+      "name": "Wait2",
+      "webhookId": "05e6bb30-9179-426b-aef6-0b175cda1276"
+    },
+    {
+      "parameters": {
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Booking Confirmed",
+              "lookupValue": "No"
+            }
+          ]
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2416,
+        784
+      ],
+      "id": "3638c022-0b80-4145-8bf1-b92f770e841c",
+      "name": "Booking Check ",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5e264f39-4a90-411c-8396-08eb93d018b7",
+              "leftValue": "={{ $json['Booking Confirmed'] }}",
+              "rightValue": "=No",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        2624,
+        784
+      ],
+      "id": "09c3ce07-f93f-4713-91de-b662f585fc4e",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Booking Confirmed": "Yes",
+            "Status": "Cancelled",
+            "Last Notified At": "={{ $now }}",
+            "Email address": "={{ $json['Email address'] }}"
+          },
+          "matchingColumns": [
+            "Email address"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2816,
+        784
+      ],
+      "id": "f2c6747f-d7f6-48ff-b418-7b67f2792ddb",
+      "name": "Cancel Booking",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5e264f39-4a90-411c-8396-08eb93d018b7",
+              "leftValue": "={{ $json['Preffered Date'] }}",
+              "rightValue": "={{ $now.toISO() }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            },
+            {
+              "id": "f27c03ed-8363-47a3-b05b-5195b26eeeb8",
+              "leftValue": "={{ $json['Preffered Date'] }}",
+              "rightValue": "={{ $now.plus({ hours: 25 }).toISO() }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "before"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        576,
+        928
+      ],
+      "id": "a3ae6cce-b247-4fde-b21c-4badbbdf9cc5",
+      "name": "Filter if appointment  < 24 hours"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5e264f39-4a90-411c-8396-08eb93d018b7",
+              "leftValue": "={{ $json['Booking Confirmed'] }}",
+              "rightValue": "=No",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1808,
+        784
+      ],
+      "id": "caf8e572-86ba-45e3-a2f2-6ae089fac084",
+      "name": "Filter to check confirmed booking"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5e264f39-4a90-411c-8396-08eb93d018b7",
+              "leftValue": "={{ $json['Last Notified At'] }}",
+              "rightValue": "={{ $('Date & Time').first().json.cutoffDate }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            },
+            {
+              "id": "76f9862d-859d-4677-ba46-d7c71fb8753c",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "unsubscribed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        832,
+        1504
+      ],
+      "id": "23ffb1d7-e725-4c7d-823e-2969ad2325c6",
+      "name": "patients with last visit > 6 months"
+    },
+    {
+      "parameters": {
+        "operation": "subtractFromDate",
+        "magnitude": "={{ $now }}",
+        "timeUnit": "months",
+        "duration": 6,
+        "outputFieldName": "cutoffDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        368,
+        1520
+      ],
+      "id": "e0ef3b68-34d3-4e5f-821a-174973913fb0",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3afc7e96-7e8a-4f3e-9066-77cac282a6ff",
+              "name": "email",
+              "value": "={{ $('patients with last visit > 6 months').item.json['Email address'] }}",
+              "type": "string"
+            },
+            {
+              "id": "251f9ffd-3f49-47f9-9a6a-47b6aad9fa6b",
+              "name": "first_name",
+              "value": "={{ $('patients with last visit > 6 months').item.json['First Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f56d4ff1-9736-4f94-9377-ca90e9a6a9ad",
+              "name": "last_name",
+              "value": "={{ $('patients with last visit > 6 months').item.json['Last Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ee072f6d-36d9-479d-b7cf-65199b6f71e4",
+              "name": "body",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "cdd64842-6cf2-47ef-8f41-4bba93c0658a",
+              "name": "service",
+              "value": "={{ $('patients with last visit > 6 months').item.json.Service }}",
+              "type": "string"
+            },
+            {
+              "id": "c07530b4-aff6-4ca1-8f5b-ba5f3708efe4",
+              "name": "last_visit",
+              "value": "={{ $('patients with last visit > 6 months').item.json['Last Notified At'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1664,
+        1616
+      ],
+      "id": "11f9609f-b7d6-41b3-b16a-e1e392308203",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "formTitle": "PureSmile Booking",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Email address ",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "Preffered date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Preffered time",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        1824,
+        400
+      ],
+      "id": "279ea394-677e-402d-a88a-4a135d3ca582",
+      "name": "On form submission",
+      "webhookId": "5c2b42ba-c2ee-4860-9954-f5afe01372c9"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Preffered Time": "={{ $json['Preffered time'] }}",
+            "Preffered Date": "={{ $json['Preffered date'] }}",
+            "Status": "Booked",
+            "Email address": "={{ $json['Email address '] }}",
+            "Booking Confirmed": "No"
+          },
+          "matchingColumns": [
+            "Email address"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2016,
+        400
+      ],
+      "id": "7063a025-837d-4fdb-b7d2-937b64f5ce15",
+      "name": "Booking",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email address",
+              "lookupValue": "={{ $json['Email address'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2192,
+        400
+      ],
+      "id": "0a7134b1-4499-4357-b6b4-1c6c65a1512a",
+      "name": "Get client Detail",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "cancel-appointment",
+        "options": {
+          "responseCode": {
+            "values": {}
+          },
+          "responseData": "Cancelled! Your appointment has been removed. Hope to see you another time!"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        2224,
+        1040
+      ],
+      "id": "f10b1875-4d2d-49d6-a1ff-a941455ca3f5",
+      "name": "Webhook2",
+      "webhookId": "5e0d3ec5-7cf3-4cb1-b312-920817356e35"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Booking Confirmed": "No",
+            "Email address": "={{ $json.query.email }}",
+            "Status": "Cancel",
+            "Last Notified At": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "Email address"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2432,
+        1040
+      ],
+      "id": "0391761a-181c-4e49-be3f-dfa297873f2a",
+      "name": "Booking Cancelled",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email address'] }}",
+        "subject": "Appointment Cancelled",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <tr><td style=\"background:#4A4A48;padding:28px 32px 24px;\">\n        <p style=\"color:#ffffff;font-size:20px;font-weight:600;margin:0 0 4px;\">Appointment Cancelled</p>\n        <p style=\"color:#d3d1c7;font-size:13px;margin:0;\">PureSmile Dental Clinic</p>\n      </td></tr>\n\n      <tr><td style=\"padding:28px 32px;\">\n        <span style=\"display:inline-block;background:#F1F1EF;color:#4A4A48;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:16px;letter-spacing:0.04em;\">STATUS: CANCELLED</span>\n\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;\">Hi <strong>{{ $('Booking Check ').item.json['First Name'] }}</strong>,</p>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;\">This email confirms that your <strong>{{ $('Booking Check ').item.json.Service }}</strong> appointment has been successfully cancelled. We're sorry we won't see you then, but we'd love to have you back when you're ready.</p>\n\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#F9F9F7;border-left:3px solid #4A4A48;border-radius:0 6px 6px 0;padding:14px 20px;margin:20px 0;\">\n          <tr>\n            <td style=\"color:#888780;font-size:12px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">PREVIOUS DATE</td>\n            <td align=\"right\" style=\"color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;\">{{ $('Booking Check ').item.json['Preffered Date'] }}</td>\n          </tr>\n          <tr>\n            <td style=\"color:#888780;font-size:12px;font-weight:600;letter-spacing:0.05em;padding:4px 0;\">PREVIOUS TIME</td>\n            <td align=\"right\" style=\"color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;\">{{ $('Booking Check ').item.json['Preffered Time'] }}</td>\n          </tr>\n        </table>\n\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:24px auto 8px;\">\n          <tr><td align=\"center\">\n            <a href=\"https://your-instance.n8n.cloud/webhook/booking-form\" style=\"display:inline-block;background:#854F0B;color:#ffffff;font-size:15px;font-weight:600;padding:13px 40px;border-radius:6px;text-decoration:none;\">Reschedule Now</a>\n          </td></tr>\n        </table>\n\n        <p style=\"text-align:center;font-size:13px;color:#888780;margin-top:12px;\">\n          Questions? Call us at <a href=\"tel:+2348001234567\" style=\"color:#854F0B;text-decoration:none;\">+234 000 000 0000</a>\n        </p>\n      </td></tr>\n\n      <tr><td style=\"padding:0 32px;\"><hr style=\"border:none;border-top:0.5px solid #d3d1c7;\"></td></tr>\n\n      <tr><td style=\"padding:16px 32px 28px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;\">You are receiving this because an appointment associated with this email was cancelled. If you did not request this, please contact us immediately.</p>\n        <p style=\"color:#888780;font-size:12px;margin:0;\">PureSmile &bull; 14 Admiralty Way, Lekki Phase 1</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        3024,
+        784
+      ],
+      "id": "c6068403-3248-4300-a26a-000bd03effd4",
+      "name": "Booking Cancelled1",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "unit": "days"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        1424
+      ],
+      "id": "d43bcb2b-fad7-4333-83d7-55ecd2afa0be",
+      "name": "Wait3",
+      "webhookId": "05e6bb30-9179-426b-aef6-0b175cda1276"
+    },
+    {
+      "parameters": {
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {
+          "returnFirstMatch": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        560,
+        1520
+      ],
+      "id": "3e77e696-4479-4c29-9e65-46cdc493abda",
+      "name": "Get rows for reactivation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email address": "={{ $('Edit Fields1').item.json.email }}",
+            "Last Notified At": "={{ $now }}",
+            "Service": "={{ $('Edit Fields1').item.json.service }}",
+            "First Name": "={{ $('Edit Fields1').item.json.first_name }}"
+          },
+          "matchingColumns": [
+            "Email address"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2256,
+        1616
+      ],
+      "id": "45b10b70-06bd-4b77-b5a5-6bf06ee1c03c",
+      "name": "Update Last Notified",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 7,
+        "unit": "days"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        1424
+      ],
+      "id": "cbd547d4-1fce-4f27-8bb4-5f19073af964",
+      "name": "Wait4",
+      "webhookId": "05e6bb30-9179-426b-aef6-0b175cda1276"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email address'] }}",
+        "subject": "Last Reminder",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <!-- Header -->\n      <tr><td style=\"background:#0d2426;padding:24px 32px;\">\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n          <td style=\"color:#ffffff;font-size:18px;font-weight:800;\">\n            Pure<span style=\"color:#3ecf8e;\">Smile</span>\n          </td>\n          <td align=\"right\">\n            <span style=\"background:rgba(239,159,39,0.15);border:1px solid rgba(239,159,39,0.35);color:#EF9F27;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;letter-spacing:0.06em;\">LAST REMINDER</span>\n          </td>\n        </tr></table>\n      </td></tr>\n\n      <!-- Body -->\n      <tr><td style=\"padding:32px 32px 24px;\">\n\n        <span style=\"display:inline-block;background:#FAEEDA;color:#633806;font-size:12px;font-weight:700;padding:5px 14px;border-radius:99px;margin-bottom:20px;\">This is our final check-in</span>\n\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.7;margin:0 0 16px;\">\n          Hi <strong>{{ $json['First Name'] }}</strong>,\n        </p>\n\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.7;margin:0 0 20px;\">\n          We reached out a few days ago and wanted to try one more time \u2014 because your smile is worth it.\n        </p>\n\n        <!-- Pull quote -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 0 20px;\">\n          <tr><td style=\"border-left:3px solid #3ecf8e;padding:4px 0 4px 16px;\">\n            <p style=\"font-size:20px;font-weight:700;color:#0a6b72;font-family:Georgia,serif;font-style:italic;line-height:1.4;margin:0;\">\"A check-up today prevents a problem tomorrow.\"</p>\n          </td></tr>\n        </table>\n\n        <p style=\"font-size:14px;color:#5F5E5A;line-height:1.7;margin:0 0 20px;\">\n          It's been a while since your last <strong>{{ $json.Service }}</strong> visit. A quick check-up can catch small issues before they become costly ones.\n        </p>\n\n        <!-- Benefits list -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f8fafa;border-radius:10px;margin:0 0 24px;\">\n          <tr><td style=\"padding:16px 20px;\">\n\n            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n              <tr>\n                <td style=\"width:22px;height:22px;background:#f0faf6;border-radius:50%;text-align:center;vertical-align:middle;font-size:13px;font-weight:900;color:#3ecf8e;\">\u2713</td>\n                <td style=\"padding:6px 0 6px 10px;font-size:14px;color:#2c2c2a;border-bottom:0.5px solid #f0f4f4;\">Full check-up in under 30 minutes</td>\n              </tr>\n              <tr>\n                <td style=\"width:22px;height:22px;background:#f0faf6;border-radius:50%;text-align:center;vertical-align:middle;font-size:13px;font-weight:900;color:#3ecf8e;\">\u2713</td>\n                <td style=\"padding:6px 0 6px 10px;font-size:14px;color:#2c2c2a;border-bottom:0.5px solid #f0f4f4;\">Early detection saves money long-term</td>\n              </tr>\n              <tr>\n                <td style=\"width:22px;height:22px;background:#f0faf6;border-radius:50%;text-align:center;vertical-align:middle;font-size:13px;font-weight:900;color:#3ecf8e;\">\u2713</td>\n                <td style=\"padding:6px 0 6px 10px;font-size:14px;color:#2c2c2a;\">Same trusted team, same warm environment</td>\n              </tr>\n            </table>\n\n          </td></tr>\n        </table>\n\n        <!-- CTA -->\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto 8px;\">\n          <tr><td align=\"center\">\n            <a href=\"https://your-instance.n8n.cloud/form/5c2b42ba-c2ee-4860-9954-f5afe01372c9\" style=\"display:inline-block;background:#3ecf8e;color:#ffffff;font-size:15px;font-weight:700;padding:14px 40px;border-radius:50px;text-decoration:none;\">Book my check-up now</a>\n          </td></tr>\n        </table>\n\n        <p style=\"text-align:center;font-size:13px;color:#888780;margin-top:12px;\">\n          Prefer to call? <a href=\"tel:+234 000 000 0000\" style=\"color:#0a6b72;font-weight:600;\">+234 000 000 0000</a>\n        </p>\n\n        <!-- Unsubscribe -->\n        <p style=\"text-align:center;font-size:12px;color:#888780;margin-top:20px;\">\n          If you'd prefer not to hear from us again, <a href=\"#\" style=\"color:#888780;\">unsubscribe here</a>.\n        </p>\n\n      </td></tr>\n\n      <!-- Footer -->\n      <tr><td style=\"border-top:0.5px solid #d3d1c7;padding:16px 32px 28px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0;\">\n          PureSmile Dental \u00b7 14 Admiralty Way, Lekki Phase 1, Lagos\n        </p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1568,
+        1424
+      ],
+      "id": "9deeb5a2-bc89-4bf2-9780-e2c09290ff14",
+      "name": "Reactivation mail 2",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email address": "={{ $('Wait3').item.json['Email address'] }}",
+            "Status": "reactivation-sent"
+          },
+          "matchingColumns": [
+            "Email address"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1792,
+        1424
+      ],
+      "id": "bc5eab83-4f7d-4138-acfb-53f98891d625",
+      "name": "Update Status",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email address": "={{ $('Wait3').item.json['Email address'] }}",
+            "Status": "dormant"
+          },
+          "matchingColumns": [
+            "Email address"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2192,
+        1424
+      ],
+      "id": "8acbfbfc-200d-4c10-ab17-931416fb54b7",
+      "name": "Update Status1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        2592,
+        1568
+      ],
+      "id": "70722adf-0885-49a0-9163-54b43149ab49",
+      "name": "PureSmile \u2014 Error Handler"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7cf3074c-875d-4156-a77e-05d51ba81834",
+              "name": "workflow_name",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "193dcb0a-7bbe-4688-8d38-9c51434c37b1",
+              "name": "node_name ",
+              "value": "={{ $json.execution.lastNodeExecuted }}",
+              "type": "string"
+            },
+            {
+              "id": "284f83cd-0799-4289-a8dc-65c5b6154f85",
+              "name": "error_message",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "31c0b9cf-2472-47d2-8746-f11dd26301ad",
+              "name": "execution_id",
+              "value": "={{ $json.execution.id }}",
+              "type": "string"
+            },
+            {
+              "id": "2d790555-e422-4227-a55a-ef3a4a388643",
+              "name": "failed_at",
+              "value": "={{ $now.toFormat('dd MMM yyyy, HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2832,
+        1568
+      ],
+      "id": "b5799a28-9d6a-4f57-91d6-86d9623de4b8",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "sendTo": "=adeniranprecious002@gmail.com ",
+        "subject": "=\ud83c\udd95 New patient enquiry \u2014  {{ $('Edit Fields').item.json.first_name }}{{ $('Edit Fields').item.json['Last Name'] }}",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <tr><td style=\"background:#0a6b72;padding:24px 32px;\">\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n          <td>\n            <p style=\"color:#fff;font-size:18px;font-weight:700;margin:0;\">New patient enquiry</p>\n            <p style=\"color:#9FE1CB;font-size:13px;margin:4px 0 0;\">Action required \u2014 create Dentrix record</p>\n          </td>\n          <td align=\"right\">\n            <span style=\"background:rgba(62,207,142,0.2);border:1px solid rgba(62,207,142,0.4);color:#3ecf8e;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;\">NEW LEAD</span>\n          </td>\n        </tr></table>\n      </td></tr>\n\n      <tr><td style=\"padding:28px 32px;\">\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 20px;\">A new patient has submitted an enquiry through the website. Please create their record in Dentrix and update the Google Sheet with their Patient ID.</p>\n\n        <!-- Patient details -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#e8f5f6;border-left:3px solid #0a6b72;border-radius:0 6px 6px 0;margin-bottom:24px;\">\n          <tr><td style=\"padding:16px 20px;\">\n            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;width:140px;\">FULL NAME</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $('Edit Fields').item.json.first_name }}{{ $('Edit Fields').item.json['Last Name'] }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">EMAIL</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $('Edit Fields').item.json.email }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">PHONE</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $('Edit Fields').item.json.Number }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">SERVICE</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $('Edit Fields').item.json.service }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">PREF. DATE</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $('Edit Fields').item.json.preffered_date }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">SUBMITTED</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $('Edit Fields').item.json.submitted_at }}</td>\n              </tr>\n            </table>\n          </td></tr>\n        </table>\n\n        <!-- Patient message -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f8fafa;border-radius:8px;border:0.5px solid #d4e0e1;margin-bottom:24px;\">\n          <tr><td style=\"padding:14px 18px;\">\n            <p style=\"color:#0a6b72;font-size:11px;font-weight:700;letter-spacing:0.08em;margin:0 0 6px;\">PATIENT MESSAGE</p>\n            <p style=\"color:#2c2c2a;font-size:14px;line-height:1.6;margin:0;font-style:italic;\">\"{{ $('Edit Fields').item.json.Message }}\"</p>\n          </td></tr>\n        </table>\n\n        <!-- Action steps -->\n        <p style=\"color:#2c2c2a;font-size:14px;font-weight:700;margin:0 0 12px;\">Your action checklist:</p>\n\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:8px;\">\n          <tr>\n            <td style=\"width:28px;height:28px;background:#e8f5f6;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#0a6b72;\">1</td>\n            <td style=\"padding-left:12px;font-size:14px;color:#2c2c2a;line-height:1.5;\">Call or email the patient to confirm their preferred appointment date</td>\n          </tr>\n        </table>\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:8px;\">\n          <tr>\n            <td style=\"width:28px;height:28px;background:#e8f5f6;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#0a6b72;\">2</td>\n            <td style=\"padding-left:12px;font-size:14px;color:#2c2c2a;line-height:1.5;\">Create their record in Dentrix and copy their Patient ID</td>\n          </tr>\n        </table>\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom:24px;\">\n          <tr>\n            <td style=\"width:28px;height:28px;background:#e8f5f6;border-radius:50%;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;color:#0a6b72;\">3</td>\n            <td style=\"padding-left:12px;font-size:14px;color:#2c2c2a;line-height:1.5;\">Paste the Patient ID into the <strong>Patient ID</strong> column in the Google Sheet and update Status to <strong>booked</strong></td>\n          </tr>\n        </table>\n\n        <!-- CTA buttons -->\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\">\n          <tr>\n            <td style=\"padding-right:12px;\">\n              <a href=\"https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID\" style=\"display:inline-block;background:#3ecf8e;color:#fff;font-size:14px;font-weight:700;padding:12px 24px;border-radius:50px;text-decoration:none;\">Open Google Sheet</a>\n            </td>\n            <td>\n              <a href=\"mailto:{{ $('Edit Fields').item.json.email }}\" style=\"display:inline-block;background:transparent;color:#0a6b72;font-size:13px;font-weight:600;padding:12px 20px;border:0.5px solid #0a6b72;border-radius:50px;text-decoration:none;\">Email patient</a>\n            </td>\n          </tr>\n        </table>\n      </td></tr>\n\n      <tr><td style=\"border-top:0.5px solid #d3d1c7;padding:16px 32px 24px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0;\">This notification was sent automatically by PureSmile n8n automation when a new patient submitted the website form.</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        384
+      ],
+      "id": "072fd0eb-1082-4640-a7b3-57da6d3576de",
+      "name": "Staff Notification",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "YOUR_SPREADSHEET_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": 796192467,
+          "mode": "list",
+          "cachedResultName": "Client DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=796192467"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $json.first_name }}",
+            "Last Name": "={{ $json['Last Name'] }}",
+            "Number": "={{ $json.Number }}",
+            "Message": "={{ $json.Message }}",
+            "Service": "={{ $json.service }}",
+            "Submitted At": "={{ $json.submitted_at }}",
+            "Status": "={{ $json['Status '] }}",
+            "Preffered Date": "={{ $json.preffered_date }}",
+            "Email address": "={{ $json.email }}",
+            "Last Notified At": "={{ $now }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email address",
+              "displayName": "Email address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Number",
+              "displayName": "Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Service",
+              "displayName": "Service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preffered Time",
+              "displayName": "Preffered Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Preffered Date",
+              "displayName": "Preffered Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Booking Confirmed",
+              "displayName": "Booking Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CREDENTIAL_ID_PLACEHOLDER",
+              "displayName": "Last Notified At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        384
+      ],
+      "id": "fdfd67a9-0516-4082-864e-7d7fa7c152c9",
+      "name": "Add new_lead",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "=adeniranprecious002@gmail.com",
+        "subject": "=\u26a0\ufe0f PureSmile workflow failed \u2014  {{ $json['node_name '] }}",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <tr><td style=\"background:#A32D2D;padding:24px 32px;\">\n        <p style=\"color:#fff;font-size:18px;font-weight:700;margin:0;\">\u26a0\ufe0f Workflow failure detected</p>\n        <p style=\"color:#F7C1C1;font-size:13px;margin:4px 0 0;\">PureSmile Automation Alert</p>\n      </td></tr>\n\n      <tr><td style=\"padding:28px 32px;\">\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 20px;\">A workflow has failed and needs your attention. Here are the details:</p>\n\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#FCEBEB;border-left:3px solid #A32D2D;border-radius:0 6px 6px 0;margin-bottom:24px;\">\n          <tr><td style=\"padding:16px 20px;\">\n            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n              <tr>\n                <td style=\"color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;width:140px;\">WORKFLOW</td>\n                <td style=\"color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json.workflow_name }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;\">FAILED NODE</td>\n                <td style=\"color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json['node_name '] }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;\">ERROR</td>\n                <td style=\"color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json.error_message }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;\">TIME</td>\n                <td style=\"color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json.failed_at }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#A32D2D;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:4px 0;\">EXECUTION ID</td>\n                <td style=\"color:#791F1F;font-size:14px;font-weight:600;padding:4px 0;\">{{ $json.execution_id }}</td>\n              </tr>\n            </table>\n          </td></tr>\n        </table>\n\n        <p style=\"color:#5F5E5A;font-size:14px;line-height:1.6;margin:0 0 8px;\">What to do next:</p>\n        <p style=\"color:#5F5E5A;font-size:13px;line-height:1.6;margin:0 0 4px;\">1. Log into n8n and open the <strong>Executions</strong> tab</p>\n        <p style=\"color:#5F5E5A;font-size:13px;line-height:1.6;margin:0 0 4px;\">2. Find execution ID <strong>{{ $json.execution_id }}</strong></p>\n        <p style=\"color:#5F5E5A;font-size:13px;line-height:1.6;margin:0 0 20px;\">3. Click <strong>Retry</strong> to re-run from the failed node</p>\n\n        <table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 auto;\">\n          <tr><td>\n            <a href=\"https://your-instance.n8n.cloud\" style=\"display:inline-block;background:#0a6b72;color:#fff;font-size:14px;font-weight:700;padding:12px 28px;border-radius:50px;text-decoration:none;\">Open n8n dashboard</a>\n          </td></tr>\n        </table>\n      </td></tr>\n\n      <tr><td style=\"border-top:0.5px solid #d3d1c7;padding:16px 32px 24px;\">\n        <p style=\"color:#888780;font-size:12px;margin:0;\">This is an automated alert from PureSmile n8n automation.</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        3040,
+        1568
+      ],
+      "id": "aff2ec1f-3c7c-4c90-8939-d157634ebd72",
+      "name": "Staff Error Alert",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Workflow 1\n Webhook \u2192 Edit Fields \u2192 Append to Sheets \u2192 Welcome Email \u2192 Staff Notification \u2192 Wait 3 days \u2192 IF check \u2192 Day 3 follow-up [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 368,
+        "width": 1488
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        272
+      ],
+      "id": "c6375b46-ea62-4820-b083-b47de986a12f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Data Flow Overview\nPatient submits website form  \u2192  Lead saved to Sheets  \u2192  Welcome email  \u2192  Staff notified  \u2192  Patient fills Google Form  \u2192  Booking confirmed  \u2192  24hr reminder  \u2192  Appointment attended  \u2192  6 months later: AI reactivation. [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "width": 2480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f6334344-c76a-45eb-9e97-bd1e329e8f49",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email address'] }}",
+        "subject": "Appointment confirmed!",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;\">\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n  <tr><td align=\"center\" style=\"padding:32px 16px;\">\n    <table width=\"560\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;\">\n\n      <!-- Header -->\n      <tr><td style=\"background:#0a6b72;padding:28px 32px 24px;\">\n        <p style=\"color:#ffffff;font-size:20px;font-weight:700;margin:0 0 4px;\">Appointment confirmed!</p>\n        <p style=\"color:#9FE1CB;font-size:13px;margin:0;\">PureSmile</p>\n      </td></tr>\n\n      <!-- Confirmed banner -->\n      <tr><td style=\"background:#f0faf6;border-bottom:1px solid #9FE1CB;padding:20px 32px;\">\n        <table cellpadding=\"0\" cellspacing=\"0\"><tr>\n          <td style=\"width:40px;height:40px;background:#3ecf8e;border-radius:50%;text-align:center;vertical-align:middle;font-size:20px;color:#fff;font-weight:700;\">\u2713</td>\n          <td style=\"padding-left:14px;\">\n            <p style=\"color:#085041;font-size:16px;font-weight:700;margin:0 0 2px;\">You're all booked in, {{ $json['First Name'] }}</p>\n            <p style=\"color:#0f6e56;font-size:13px;margin:0;\">We'll send you a reminder 24 hours before your visit.</p>\n          </td>\n        </tr></table>\n      </td></tr>\n\n      <!-- Body -->\n      <tr><td style=\"padding:28px 32px;\">\n        <span style=\"display:inline-block;background:#f0faf6;color:#085041;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:16px;letter-spacing:0.04em;\">BOOKING CONFIRMED</span>\n\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">Hi <strong>{{ $json['First Name'] }}</strong>,</p>\n        <p style=\"color:#2c2c2a;font-size:15px;line-height:1.65;margin:0 0 16px;\">Great news \u2014 your appointment has been confirmed. Here are your booking details:</p>\n\n        <!-- Appointment box -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#e8f5f6;border-left:3px solid #0a6b72;border-radius:0 6px 6px 0;margin:20px 0;\">\n          <tr><td style=\"padding:16px 20px;\">\n            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;width:120px;\">DATE</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $json['Preffered Date'] }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">TIME</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $json['Preffered Time'] }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">SERVICE</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">{{ $json.Service }}</td>\n              </tr>\n              <tr>\n                <td style=\"color:#0a6b72;font-size:12px;font-weight:700;letter-spacing:0.05em;padding:5px 0;\">LOCATION</td>\n                <td style=\"color:#064d52;font-size:14px;font-weight:600;padding:5px 0;\">14 Admiralty Way, Lekki Phase 1, Lagos</td>\n              </tr>\n            </table>\n          </td></tr>\n        </table>\n\n        <!-- Calendar nudge -->\n        <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f8fafa;border:0.5px solid #d4e0e1;border-radius:8px;margin:16px 0;\">\n          <tr><td style=\"padding:14px 18px;\">\n            <table cellpadding=\"0\" cellspacing=\"0\"><tr>\n              <td style=\"font-size:22px;padding-right:14px;\">\ud83d\udcc5</td>\n              <td>\n                <p style=\"font-size:13px;color:#5F5E5A;margin:0 0 4px;line-height:1.5;\">Don't forget your appointment.</p>\n                <a href=\"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Dental+Appointment+at+PureSmile&dates={{ $json['Preffered Date'].replace(/-/g,'') }}T{{ $json['Preffered Date'].replace(':','') }}00/{{ $json['Preffered Date'].replace(/-/g,'') }}T{{ $json['Preffered Time'].replace(':','') }}00&details=Appointment+at+PureSmile+Dental&location=14+Admiralty+Way+Lekki+Lagos\" style=\"color:#0a6b72;font-weight:600;font-size:13px;text-decoration:none;\">Add to Google Calendar \u2192</a>\n              </td>\n            </tr></table>\n          </td></tr>\n        </table>\n\n        <p style=\"font-size:14px;color:#5F5E5A;line-height:1.6;margin:0;\">Please arrive <strong>10 minutes early</strong>. To cancel or reschedule, call us at least 24 hours in advance at <a href=\"tel:234 800 123 4567\" style=\"color:#0a6b72;\">234 800 123 4567</a>.</p>\n      </td></tr>\n\n      <!-- Footer -->\n      <tr><td style=\"border-top:0.5px solid #d3d1c7;padding:16px 32px 28px;\">\n        <p style=\"color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;\">Questions? Reply to this email or call <a href=\"tel:234 800 123 4567\" style=\"color:#0a6b72;\">234 800 123 4567</a>.</p>\n        <p style=\"color:#888780;font-size:12px;margin:0;\">PureSmile Dental \u00b7 14 Admiralty Way, Lekki Phase 1, Lagos</p>\n      </td></tr>\n\n    </table>\n  </td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2368,
+        400
+      ],
+      "id": "18697b15-9bf4-4207-8abc-72e77b3b0991",
+      "name": "Appointment Confirmed",
+      "webhookId": "b590be5c-e50e-43bf-a694-abc448f74ceb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Workflow 2\n Schedule Trigger \u2192 Get Rows \u2192 Filter 24hr \u2192 Switch \u2192 Code \u2192 First Reminder \u2192 Wait 2hr \u2192 Check Confirmed \u2192 Second Reminder \u2192 Cancel  [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)\n\n### SUB Workflow \n Webhook Trigger \u2192 Booking Confirmed\n\n### SUB Workflow \n Webhook Trigger \u2192 Booking Cancelled",
+        "height": 592,
+        "width": 3236
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        688
+      ],
+      "id": "579d1e6e-cbb7-4eb0-88c4-d7ba42eeffb8",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Workflow 4\n Schedule Trigger \u2192 Date & Time \u2192 Get All Rows \u2192 Filter 6-month inactive \u2192 Loop \u2192 OpenAI \u2192 Email 1 \u2192 Update Sheets \u2192 Wait 5 days \u2192 Email 2 \u2192 Dormant [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 480,
+        "width": 2420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        1376
+      ],
+      "id": "3a24df8b-0cc7-4d6a-8624-618ca9f1f60f",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Error Handler \nError Handler \u2014 Error Trigger \u2192 Extract Details \u2192 Send Alert Email to Admins/components/sticky-notes/)",
+        "height": 448,
+        "width": 784
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        1392
+      ],
+      "id": "be8340e1-b129-4450-814f-34c3d757d1f2",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Workflow 3\n Google Form Trigger \u2192 Update Sheets \u2192 Get Patient Details \u2192 Send Confirmation Email [Guide](https://docs.n8n.io/workflows/components/sticky-notes/)",
+        "height": 368,
+        "width": 1328
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        272
+      ],
+      "id": "6cf81b64-16d2-40cc-bcd7-9309e0545ee7",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const val = item.json['Last Notified At'];\n  if (!val || val.toString().trim() === '') {\n    item.json['Last Notified At'] = '2020-01-01T00:00:00.000Z';\n  }\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        1520
+      ],
+      "id": "4268f256-35e6-4eb2-825d-de1d773520fc",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const date = item.json['Preffered Date'];\n  if (!date || date.toString().trim() === '') {\n    item.json['Preffered Date'] = '2000-01-01';\n  }\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        928
+      ],
+      "id": "43ed1120-40d9-4278-b67a-421990f32bcb",
+      "name": "Code in JavaScript2"
+    }
+  ],
+  "pinData": {
+    "First Reminder": [
+      {
+        "json": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "threadId": "19d7e3ad6a853c4c",
+          "labelIds": [
+            "SENT"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Code in JavaScript": [
+      {
+        "json": {
+          "row_number": 5,
+          "First Name": "Adebayo",
+          "Last Name": "Precious",
+          "Email address": "preciousadenirantsacacaps2026@gmail.com",
+          "Number": 8164009223,
+          "Message": "I want your best specialist",
+          "Service": "Paediatric dentistry",
+          "Preffered Time": "10:00",
+          "Preffered Date": "2026-04-12",
+          "Submitted At": "2026-04-11T19:07:09.462Z",
+          "Status": "Booked",
+          "Booking Confirmed": "No",
+          "Last Notified At": "",
+          "doctor": {
+            "name": "Dr. Oral Surgeon",
+            "bio": "UCL Diploma, expert in children's care."
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "steve005.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "accept-encoding": "gzip, br",
+            "accept-language": "en-US,en;q=0.9",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "105.112.179.182",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "NG",
+            "cf-ray": "9eacc14938eaecfe-LHR",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "cookie": "_ga=GA1.1.486824834.1766222662; _fbp=fb.1.1766222662424.372533641468780680; _gcl_au=1.1.435686557.1775228550; rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2BGpb%2F7ywOMQNefFktneEDxr4tAlmtsXo0%3D; _ga_0SC4FF2FH9=GS2.1.s1775228313$o11$g1$t1775228678$j51$l0$h0; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX18u%2FoM3wpmh2r8lDQMNnJs5QATsKu%2BvEEgjYisqbgFOkqDxELGxre%2BaPsn9f9p1qNOpOxh46PW7xA%3D%3D; rl_user_id=RudderEncrypt%3AU2FsdGVkX18sdeoFNN%2BocDE3emQeDUYxzxN7D1BKOnRK27YC5kkdQk2muGR%2FFJTX8U%2FXrcfOD2A%2FlXXn%2FWPPqx2jutwgwBSQdz1bAOZTwctv7tqklDilO67%2FNUb8cYcw3%2BDlCTrcnZFbrXoDyUqmRLulwhVB601u%2BDBMpRtWcFY%3D; rl_trait=RudderEncrypt%3AU2FsdGVkX1%2BsWbsNlEAf0eeTlS6AHXs7xmavYLOrWz7oiygrAeqNlvZ7O4NbFdyLkduG027gLm3ZEbfCt4pZbSoA18hmqvp%2F6J9eT9Rae%2BqhiWZGyN3ibzMUWbFLIblGr0y%2FhfTj95E9TSnDFj6zLBzrNJfLq5g1%2BSOynOxsbwj06h3vPu2HGWuATmEcknUHMzYsI0m1M5vaFeQ0tAKmrg%3D%3D; n8n_anonymous_id=ba7fe77b-5216-4486-842b-203ba7308075; rl_session=RudderEncrypt%3AU2FsdGVkX1%2FTYbybR3BaIjM3wvx%2FmpyHcwrPwWgu%2FQe5dcXwIzqqAboCRZ4GxEgsZaMxyPxs%2B9QpUY6N26XbGzNsP02anwnqSX75%2F6pzw%2BV0KBozdVtjigdCPsbGceKqVU03mqY52OdeolC2zgXxyg%3D%3D; ph_phc_4URIAm1uYfJO7j8kWSe0J8lc8IqnstRLS7Jx8NcakHo_posthog=%7B%22%24device_id%22%3A%22019b3b16-2fc3-72c5-bd7d-867d4941273c%22%2C%22distinct_id%22%3A%22185e8da12260b39cc1126a694bd4981436a922544bb1ef3131f6808643336778%231c7ca651-d58d-4f76-aa23-8d4a336f6d18%22%2C%22%24sesid%22%3A%5B1775939486198%2C%22019d7d69-7006-749d-8623-df2c67a4cfa0%22%2C1775925555148%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22https%3A%2F%2Fstevore-ai004.app.n8n.cloud%2Fsignout%22%7D%2C%22%24user_state%22%3A%22identified%22%7D",
+            "if-none-match": "W/\"39-tkea9qN2lLOCIjSOk2ZGdekLImA\"",
+            "priority": "u=0, i",
+            "sec-ch-ua": "\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-user": "?1",
+            "upgrade-insecure-requests": "1",
+            "x-forwarded-for": "105.112.179.182, 141.101.99.136",
+            "x-forwarded-host": "steve005.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-10-7758bbbc9b-kmn5z",
+            "x-is-trusted": "yes",
+            "x-real-ip": "105.112.179.182"
+          },
+          "params": {},
+          "query": {
+            "email": "preciousadenirantsacacaps2026@gmail.com"
+          },
+          "body": {},
+          "webhookUrl": "https://steve005.app.n8n.cloud/webhook/confirm-appointment",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "headers": {
+            "host": "steve005.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "accept-encoding": "gzip, br",
+            "accept-language": "en-US,en;q=0.9",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "105.112.179.182",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "NG",
+            "cf-ray": "9eacc14938eaecfe-LHR",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "cookie": "_ga=GA1.1.486824834.1766222662; _fbp=fb.1.1766222662424.372533641468780680; _gcl_au=1.1.435686557.1775228550; rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2BGpb%2F7ywOMQNefFktneEDxr4tAlmtsXo0%3D; _ga_0SC4FF2FH9=GS2.1.s1775228313$o11$g1$t1775228678$j51$l0$h0; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX18u%2FoM3wpmh2r8lDQMNnJs5QATsKu%2BvEEgjYisqbgFOkqDxELGxre%2BaPsn9f9p1qNOpOxh46PW7xA%3D%3D; rl_user_id=RudderEncrypt%3AU2FsdGVkX18sdeoFNN%2BocDE3emQeDUYxzxN7D1BKOnRK27YC5kkdQk2muGR%2FFJTX8U%2FXrcfOD2A%2FlXXn%2FWPPqx2jutwgwBSQdz1bAOZTwctv7tqklDilO67%2FNUb8cYcw3%2BDlCTrcnZFbrXoDyUqmRLulwhVB601u%2BDBMpRtWcFY%3D; rl_trait=RudderEncrypt%3AU2FsdGVkX1%2BsWbsNlEAf0eeTlS6AHXs7xmavYLOrWz7oiygrAeqNlvZ7O4NbFdyLkduG027gLm3ZEbfCt4pZbSoA18hmqvp%2F6J9eT9Rae%2BqhiWZGyN3ibzMUWbFLIblGr0y%2FhfTj95E9TSnDFj6zLBzrNJfLq5g1%2BSOynOxsbwj06h3vPu2HGWuATmEcknUHMzYsI0m1M5vaFeQ0tAKmrg%3D%3D; n8n_anonymous_id=ba7fe77b-5216-4486-842b-203ba7308075; rl_session=RudderEncrypt%3AU2FsdGVkX1%2FTYbybR3BaIjM3wvx%2FmpyHcwrPwWgu%2FQe5dcXwIzqqAboCRZ4GxEgsZaMxyPxs%2B9QpUY6N26XbGzNsP02anwnqSX75%2F6pzw%2BV0KBozdVtjigdCPsbGceKqVU03mqY52OdeolC2zgXxyg%3D%3D; ph_phc_4URIAm1uYfJO7j8kWSe0J8lc8IqnstRLS7Jx8NcakHo_posthog=%7B%22%24device_id%22%3A%22019b3b16-2fc3-72c5-bd7d-867d4941273c%22%2C%22distinct_id%22%3A%22185e8da12260b39cc1126a694bd4981436a922544bb1ef3131f6808643336778%231c7ca651-d58d-4f76-aa23-8d4a336f6d18%22%2C%22%24sesid%22%3A%5B1775939486198%2C%22019d7d69-7006-749d-8623-df2c67a4cfa0%22%2C1775925555148%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22https%3A%2F%2Fstevore-ai004.app.n8n.cloud%2Fsignout%22%7D%2C%22%24user_state%22%3A%22identified%22%7D",
+            "if-none-match": "W/\"39-tkea9qN2lLOCIjSOk2ZGdekLImA\"",
+            "priority": "u=0, i",
+            "sec-ch-ua": "\"Chromium\";v=\"146\", \"Not-A.Brand\";v=\"24\", \"Google Chrome\";v=\"146\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-user": "?1",
+            "upgrade-insecure-requests": "1",
+            "x-forwarded-for": "105.112.179.182, 141.101.99.136",
+            "x-forwarded-host": "steve005.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-10-7758bbbc9b-kmn5z",
+            "x-is-trusted": "yes",
+            "x-real-ip": "105.112.179.182"
+          },
+          "params": {},
+          "query": {
+            "email": "preciousadenirantsacacaps2026@gmail.com"
+          },
+          "body": {},
+          "webhookUrl": "https://steve005.app.n8n.cloud/webhook/confirm-appointment",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Reactivation mail 2": [
+      {
+        "json": {
+          "id": "CREDENTIAL_ID_PLACEHOLDER",
+          "threadId": "19d81ee869fa4874",
+          "labelIds": [
+            "UNREAD",
+            "SENT",
+            "INBOX"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "PureSmile \u2014 Error Handler": [
+      {
+        "json": {
+          "workflow": {
+            "id": "CREDENTIAL_ID_PLACEHOLDER",
+            "name": "Pure smile"
+          },
+          "execution": {
+            "id": "test-execution-001",
+            "mode": "manual",
+            "retryOf": null,
+            "error": {
+              "message": "Gmail node failed \u2014 invalid credentials or quota exceeded",
+              "stack": "Error: Gmail node failed\n    at WorkflowExecute.runNode"
+            },
+            "lastNodeExecuted": "Welcome Message",
+            "startedAt": "2026-04-12T13:58:40.000Z",
+            "stoppedAt": "2026-04-12T13:59:01.000Z"
+          }
+        }
+      }
+    ],
+    "Reactivation": [
+      {
+        "json": {
+          "timestamp": "2026-04-22T15:28:00.001+01:00",
+          "Readable date": "April 22nd 2026, 3:28:00 pm",
+          "Readable time": "3:28:00 pm",
+          "Day of week": "Wednesday",
+          "Year": "2026",
+          "Month": "April",
+          "Day of month": "22",
+          "Hour": "15",
+          "Minute": "28",
+          "Second": "00",
+          "Timezone": "Africa/Lagos (UTC+01:00)"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "stevore006.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+            "content-length": "208",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "accept-language": "en-US,en;q=0.9",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "105.112.23.181",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "NG",
+            "cf-ray": "9f1d6e54efdaed01-LHR",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "origin": "https://pure-smile.netlify.app",
+            "priority": "u=1, i",
+            "referer": "https://pure-smile.netlify.app/",
+            "sec-ch-ua": "\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "105.112.23.181, 141.101.98.215",
+            "x-forwarded-host": "stevore006.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-63-75857cd984-bcfhj",
+            "x-is-trusted": "yes",
+            "x-real-ip": "105.112.23.181"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "firstName": "Kehinde",
+            "lastName": "Tanimowo",
+            "email": "ktanimowo7@gmail.com",
+            "phone": "09067187304",
+            "service": "Orthodontics",
+            "appointmentDate": "2026-04-26",
+            "message": "",
+            "submittedAt": "2026-04-25T12:42:58.876Z"
+          },
+          "webhookUrl": "https://your-instance.n8n.cloud/webhook/5e0d3ec5-7cf3-4cb1-b312-920817356e35",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Reminder": [
+      {
+        "json": {
+          "timestamp": "2026-04-27T06:00:55.006+01:00",
+          "Readable date": "April 27th 2026, 6:00:55 am",
+          "Readable time": "6:00:55 am",
+          "Day of week": "Monday",
+          "Year": "2026",
+          "Month": "April",
+          "Day of month": "27",
+          "Hour": "06",
+          "Minute": "00",
+          "Second": "55",
+          "Timezone": "Africa/Lagos (UTC+01:00)"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Add new_lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Booking Check 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Update Last Notified",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Welcome Message": {
+      "main": [
+        [
+          {
+            "node": "Staff Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reminder to book",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "First Reminder": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reminder": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reactivation": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reactivation mail 1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Second Reminder": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "First Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Booking Check": {
+      "main": [
+        [
+          {
+            "node": "Filter if appointment  < 24 hours",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Booking Confirmed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Booking Check 1": {
+      "main": [
+        [
+          {
+            "node": "Filter to check confirmed booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Booking Check ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Booking Check ": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Cancel Booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter if appointment  < 24 hours": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter to check confirmed booking": {
+      "main": [
+        [
+          {
+            "node": "Second Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "patients with last visit > 6 months": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Get rows for reactivation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Reactivation mail 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Booking": {
+      "main": [
+        [
+          {
+            "node": "Get client Detail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get client Detail": {
+      "main": [
+        [
+          {
+            "node": "Appointment Confirmed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Booking Cancelled",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cancel Booking": {
+      "main": [
+        [
+          {
+            "node": "Booking Cancelled1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Reactivation mail 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get rows for reactivation": {
+      "main": [
+        [
+          {
+            "node": "patients with last visit > 6 months",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Last Notified": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "Update Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reactivation mail 2": {
+      "main": [
+        [
+          {
+            "node": "Update Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status": {
+      "main": [
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PureSmile \u2014 Error Handler": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Staff Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add new_lead": {
+      "main": [
+        [
+          {
+            "node": "Welcome Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Booking Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "313dde5a-9730-4e9d-9f28-86677eba3872",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b42d9db87c266be6eb79736d9878c903130f42fd80b150794746f6aca408d578"
+  },
+  "id": "CREDENTIAL_ID_PLACEHOLDER",
+  "tags": []
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<body style="margin:0;padding:0;background:#f4f4f0;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding:32px 16px;">
+                <table width="560" cellpadding="0" cellspacing="0"
+                    style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d3d1c7;">
+
+                    <tr>
+                        <td style="background:#1D9E75;padding:28px 32px 24px;">
+                            <p style="color:#ffffff;font-size:20px;font-weight:600;margin:0 0 4px;">Appointment Reminder
+                            </p>
+                            <p style="color:#ffffff;opacity:0.8;font-size:13px;margin:0;">PureSmile Dental Clinic</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:28px 32px;">
+                            <span
+                                style="display:inline-block;background:#E6FBF4;color:#1D9E75;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:16px;">24-HOUR
+                                NOTICE</span>
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;">Hi <strong>{{
+                                    $json['First Name'] }}</strong>,</p>
+                            <p style="color:#2c2c2a;font-size:15px;line-height:1.6;margin:0 0 16px;">This is a friendly
+                                reminder that you have an appointment scheduled for <strong>tomorrow</strong> for
+                                <strong>{{ $json['Service'] }}</strong>. We look forward to seeing you!</p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0"
+                                style="background:#f9f9f7;border-left:3px solid #1D9E75;border-radius:0 6px 6px 0;padding:16px 20px;margin:20px 0;">
+                                <tr>
+                                    <td
+                                        style="color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;">
+                                        DATE</td>
+                                    <td align="right"
+                                        style="color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;">{{
+                                        $json['Preffered Date'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;">
+                                        TIME</td>
+                                    <td align="right"
+                                        style="color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;">{{
+                                        $json['Preffered Time'] }}</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;">
+                                        PROVIDER</td>
+                                    <td align="right"
+                                        style="color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;">{{
+                                        $json.doctor.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="color:#5F5E5A;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 0;">
+                                        LOCATION</td>
+                                    <td align="right"
+                                        style="color:#2c2c2a;font-size:14px;font-weight:600;padding:4px 0;">14 Admiralty
+                                        Way, Lekki Phase 1</td>
+                                </tr>
+                            </table>
+
+                            <p style="font-size:14px;color:#5F5E5A;line-height:1.6;margin:0 0 24px;">
+                                <strong>Meet your specialist:</strong> {{ $json.doctor.bio }}
+                            </p>
+
+                            <p style="font-size:13px;color:#888780;line-height:1.6;margin:0 0 24px;">Please arrive 10
+                                minutes early. If you need to reschedule, kindly give us at least 24 hours' notice.</p>
+
+                            <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+                                <tr>
+                                    <td style="padding-right:12px;">
+                                        <a href="https://stevore006.app.n8n.cloud/webhook/confirm-appointment?email={{ $json['Email address'] }}"
+                                            style="display:inline-block;background:#1D9E75;color:#ffffff;font-size:15px;font-weight:600;padding:13px 36px;border-radius:6px;text-decoration:none;">Confirm
+                                            Appointment</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:0 32px;">
+                            <hr style="border:none;border-top:0.5px solid #d3d1c7;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:16px 32px 28px;">
+                            <p style="color:#888780;font-size:12px;line-height:1.6;margin:0 0 4px;">Questions? Call us
+                                at <a href="tel:+2348001234567" style="color:#1D9E75;">+234 800 123 4567</a> or reply to
+                                this email.</p>
+                            <p style="color:#888780;font-size:12px;margin:0;"> PureSmile &bull; Lekki Phase 1, Lagos</p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

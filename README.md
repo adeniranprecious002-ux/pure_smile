@@ -248,8 +248,8 @@ Before going live, test each workflow in order:
 
 This system was built as a portfolio project based on a real Upwork job posting for an AI Automation Specialist to build patient communication workflows for a dental clinic. Budget: $500–$1,500.
 
-Full write-up on Medium: [insert link]
-LinkedIn build series: [insert link]
+Full write-up on Medium: [[Medium](https://medium.com/@adeniranprecious002/i-found-a-1-000-upwork-job-post-and-built-the-entire-system-before-applying-7f50c7d1d4df)]
+LinkedIn build series: [[LinkedIn] (https://www.linkedin.com/in/precious-adeniran-842b58294)]
 
 ---
 
@@ -261,10 +261,10 @@ MIT — free to use, adapt, and deploy for any project.
 
 ## Contact
 
-Built by [Your Name]
+Built by [Adeniran Precious Adebayo]
 
-- LinkedIn: [your LinkedIn URL]
-- Upwork: [your Upwork URL]
-- Email: [your email]
+- LinkedIn: [[LinkedIn] (https://www.linkedin.com/in/precious-adeniran-842b58294)]
+- Upwork: [[Upwork](https://upwork.com/freelancers/~01721e743c53bddd4e)]
+- Email: [[Mail](adeniranprecious002@gmail.com|)]
 
 If you found this useful, a ⭐ on the repo goes a long way.
